@@ -220,7 +220,6 @@ def rot13(text):
 def to_tinytext(text):
     normal = "abcdefghijklmnopqrstuvwxyz0123456789"
     tiny   = "ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖᵠʳˢᵗᵘᵛʷˣʸᶻ⁰¹²³⁴⁵⁶⁷⁸⁹"
-Use code with caution.
 return ''.join(tiny[normal.index(c)] if c in normal else c for c in text.lower())
 def uwuify(text):
 text = text.replace('r', 'w').replace('l', 'w').replace('R', 'W').replace('L', 'W')
