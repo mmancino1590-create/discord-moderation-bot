@@ -180,7 +180,7 @@ COMPLIMENTS = [
     "You have an amazing sense of humor.",
     "You're stronger than you think.",
     "The world is genuinely better with you in it.",
- ]
+]
 
 FORTUNES = [
     "Great things are coming your way soon.",
@@ -202,7 +202,7 @@ HELP_CATEGORIES = {
     "fun": "`!roll` `!flip` `!8ball` `!rps` `!slots` `!trivia` `!joke` `!roast` `!compliment` `!ship` `!rate` `!choose` `!reverse` `!mock` `!clap` `!emojify` `!tinytext` `!uwu` `!pirate` `!yell` `!whisper` `!repeat` `!echo` `!hype` `!fact` `!wyr` `!riddle` `!meme` `!coinflip` `!dice` `!magic` `!fortune` `!palindrome` `!vowels` `!consonants` `!piglatin`",
     "economy": "`!balance` `!daily` `!give` `!leaderboard` `!gamble` `!work` `!rob` `!shop` `!buy` `!inventory` `!sell` `!richest` `!bankrob` `!lottery` `!invest`",
     "social": "`!birthday` `!confess` `!hug` `!slap` `!pat` `!poke` `!wave` `!highfive` `!cry` `!laugh` `!marry` `!divorce` `!partner` `!rep` `!reps` `!quote` `!addquote`",
-    "mod": "`!warn` `!warnings` `!clearwarnings` `!mute` `!unmute` `!slowmode` `!purge` `!lock` `!unlock` `!kick` `!ban` `!unban` `!softban` `!nick` `!deafen` `!undeafen` `!move` `!clearreactions`",
+    "mod": "`!warn` `!warnings` `!clearwarnings` `!mute` `!unmute` `slowmode` `!purge` `!lock` `!unlock` `!kick` `!ban` `!unban` `!softban` `!nick` `!deafen` `!undeafen` `!move` `!clearreactions`",
     "utility": "`!poll` `!endpoll` `!remind` `!todo` `!math` `!hash` `!base64` `!timestamp` `!color` `!translate` `!encrypt` `!decrypt` `!tinytext` `!charinfo` `!jumbo` `!snipe` `!editsnipe` `!afk` `!unafk` `!note` `!notes` `!clearnotes` `!xpinfo` `!counting` `!setcounting`",
     "config": "`!setconfess` `!setstarboard` `!addfilter` `!removefilter` `!addcmd` `!removecmd` `!giveaway` `!endgiveaway` `!reactionrole` `!setlevel` `!autorole`",
     "ai": "`-pyloc [question]` — asks Gemini AI and posts answer in channel",
@@ -212,18 +212,20 @@ HELP_CATEGORIES = {
 def rot13(text):
     result = []
     for c in text:
-        if 'a' <= c <= 'z': result.append(chr((ord(c) - ord('a') + 13) % 26 + ord('a')))
-        elif 'A' <= c <= 'Z': result.append(chr((ord(c) - ord('A') + 13) % 26 + ord('A')))
-        else: result.append(c)
+        if 'a' <= c <= 'z':
+            result.append(chr((ord(c) - ord('a') + 13) % 26 + ord('a')))
+        elif 'A' <= c <= 'Z':
+            result.append(chr((ord(c) - ord('A') + 13) % 26 + ord('A')))
+        else:
+            result.append(c)
     return ''.join(result)
-
 def to_tinytext(text):
     normal = "abcdefghijklmnopqrstuvwxyz0123456789"
     tiny   = "ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖᵠʳˢᵗᵘᵛʷˣʸᶻ⁰¹²³⁴⁵⁶⁷⁸⁹"
 return ''.join(tiny[normal.index(c)] if c in normal else c for c in text.lower())
 def uwuify(text):
-    text = text.replace('r', 'w').replace('l', 'w').replace('R', 'W').replace('L', 'W')
-    return text + " uwu"
+text = text.replace('r', 'w').replace('l', 'w').replace('R', 'W').replace('L', 'W')
+return text + " uwu"
 def pirate_speak(text):
 replacements = {"hello": "ahoy", "hi": "ahoy", "yes": "aye", "no": "nay"}
 words = text.lower().split()
@@ -231,9 +233,12 @@ return ' '.join(replacements.get(w, w) for w in words) + " arrr!"
 def pig_latin(text):
 result = []
 for word in text.split():
-if not word: continue
-if word[0].lower() in 'aeiou': result.append(word + 'yay')
-else: result.append(word[1:] + word[0] + 'ay')
+if not word:
+continue
+if word.lower() in 'aeiou':
+result.append(word + 'yay')
+else:
+result.append(word[1:] + word + 'ay')
 return ' '.join(result)
 def mock_text(text):
 return ''.join(c.upper() if i % 2 else c.lower() for i, c in enumerate(text))
@@ -257,8 +262,10 @@ if now >= r["time"]:
 try:
 channel = client.get_channel(r["channel_id"])
 user = client.get_user(r["user_id"])
-if channel and user: await channel.send(f"⏰ {user.mention} reminder: {r['text']}")
-except: pass
+if channel and user:
+await channel.send(f"⏰ {user.mention} reminder: {r['text']}")
+except:
+pass
 reminders.remove(r)
 await asyncio.sleep(5)
 async def unmute_loop():
@@ -271,8 +278,10 @@ try:
 guild = client.get_guild(data["guild_id"])
 member = guild.get_member(user_id)
 mute_role = discord.utils.get(guild.roles, name="Muted")
-if member and mute_role: await member.remove_roles(mute_role)
-except: pass
+if member and mute_role:
+await member.remove_roles(mute_role)
+except:
+pass
 del temp_mutes[user_id]
 await asyncio.sleep(5)
 async def giveaway_loop():
@@ -291,13 +300,13 @@ users = [u async for u in reaction.users() if not u.bot]
 if users:
 winner = random.choice(users)
 await channel.send(f"🎉 {winner.mention} won {data['prize']}!")
-except: pass
+except:
+pass
 await asyncio.sleep(10)
 @client.event
 async def on_ready():
 print(f"\n[debug] logged in as {client.user}")
 print(f"[debug] {len(client.guilds)} server(s)")
-# Local terminal loop removed so server doesn't freeze
 client.loop.create_task(reminder_loop())
 client.loop.create_task(unmute_loop())
 client.loop.create_task(giveaway_loop())
@@ -311,7 +320,8 @@ if not before.author.bot:
 edit_snipe_data[before.channel.id] = {"before": before.content, "after": after.content, "author": str(before.author), "time": datetime.datetime.utcnow()}
 @client.event
 async def on_reaction_add(reaction, user):
-if user.bot: return
+if user.bot:
+return
 if str(reaction.emoji) == "⭐" and reaction.count >= starboard_threshold:
 if starboard_channel_id and reaction.message.id not in starboard_posted:
 starboard_posted.add(reaction.message.id)
@@ -324,23 +334,29 @@ key = f"{reaction.message.id}:{str(reaction.emoji)}"
 if key in reaction_roles:
 role = reaction.message.guild.get_role(reaction_roles[key])
 member = reaction.message.guild.get_member(user.id)
-if role and member: await member.add_roles(role)
+if role and member:
+await member.add_roles(role)
 @client.event
 async def on_reaction_remove(reaction, user):
-if user.bot: return
+if user.bot:
+return
 key = f"{reaction.message.id}:{str(reaction.emoji)}"
 if key in reaction_roles:
 role = reaction.message.guild.get_role(reaction_roles[key])
 member = reaction.message.guild.get_member(user.id)
-if role and member: await member.remove_roles(role)
+if role and member:
+await member.remove_roles(role)
 @client.event
 async def on_message(message):
 global counting_last, counting_last_user, confession_channel_id, starboard_channel_id, counting_channel_id
-if message.author.bot: return
+if message.author.bot:
+return
 for w in word_filters:
 if w.lower() in message.content.lower():
-try: await message.delete()
-except: pass
+try:
+await message.delete()
+except:
+pass
 return
 if message.author.id not in xp_cooldown:
 xp_gain = random.randint(5, 15)
@@ -361,12 +377,13 @@ await message.add_reaction("✅")
 else:
 counting_last, counting_last_user = 0, None
 await message.channel.send(f"❌ broken! Back to 0.")
-except: pass
+except:
+pass
 return
-if message.channel.id in active_trivia and message.content.lower().strip() == active_trivia[message.channel.id][1].lower():
+if message.channel.id in active_trivia and message.content.lower().strip() == active_trivia[message.channel.id].lower():
 trivia_scores[message.author.id] += 1
 economy[message.author.id] += 50
-await message.channel.send(f"✅ {message.author.mention} guessed {active_trivia[message.channel.id][1]}! (+50 coins)")
+await message.channel.send(f"✅ {message.author.mention} guessed {active_trivia[message.channel.id]}! (+50 coins)")
 del active_trivia[message.channel.id]
 cmd = message.content.strip().lower()
 if cmd in custom_commands:
@@ -374,7 +391,8 @@ await message.channel.send(custom_commands[cmd])
 return
 content = message.content.strip()
 args = content.split()
-if not args: return
+if not args:
+return
 command = args[0].lower()
 rest = content[len(args[0]):].strip()
 # ⭐ NEW CHAT-BASED BROADCAST RELAY (Replaces the broken terminal loop)
@@ -385,33 +403,47 @@ return
 if not rest:
 await message.channel.send("Usage: !say [message]")
 return
-try: await message.delete()
-except: pass
+try:
+await message.delete()
+except:
+pass
 await message.channel.send(rest)
 return
 # AI COMMAND
 if command == "-pyloc":
-if not rest: return
-async with message.channel.typing(): reply = await ask_ai(rest)
-for chunk in [reply[i:i+2000] for i in range(0, len(reply), 2000)]: await message.channel.send(chunk)
+if not rest:
+return
+async with message.channel.typing():
+reply = await ask_ai(rest)
+for chunk in [reply[i:i+2000] for i in range(0, len(reply), 2000)]:
+await message.channel.send(chunk)
 # INFO UTILITIES
 elif command == "!help":
 page = args[1].lower() if len(args) > 1 else None
-if page in HELP_CATEGORIES: await message.channel.send(embed=Embed(title=f"📖 Commands — {page}", description=HELP_CATEGORIES[page], color=Color.blurple()))
-else: await message.channel.send(embed=Embed(title="Help", description="Use !help [category]\nCategories: info fun economy social mod utility config ai relay"))
-elif command == "!ping": await message.channel.send(f"🏓 Pong! {round(client.latency * 1000)}ms")
-elif command == "!uptime": await message.channel.send(f"⏱️ Uptime: {int(time.time() - start_time)}s")
-elif command == "!joke": await message.channel.send(f"😂 {random.choice(JOKES)}")
-elif command == "!roast": await message.channel.send(f"🔥 {random.choice(ROASTS)}")
-elif command == "!compliment": await message.channel.send(f"💖 {random.choice(COMPLIMENTS)}")
-elif command == "!fact": await message.channel.send(f"💡 {random.choice(fun_facts)}")
+if page in HELP_CATEGORIES:
+await message.channel.send(embed=Embed(title=f"📖 Commands — {page}", description=HELP_CATEGORIES[page], color=Color.blurple()))
+else:
+await message.channel.send(embed=Embed(title="Help", description="Use !help [category]\nCategories: info fun economy social mod utility config ai relay"))
+elif command == "!ping":
+await message.channel.send(f"🏓 Pong! {round(client.latency * 1000)}ms")
+elif command == "!uptime":
+await message.channel.send(f"⏱️ Uptime: {int(time.time() - start_time)}s")
+elif command == "!joke":
+await message.channel.send(f"😂 {random.choice(JOKES)}")
+elif command == "!roast":
+await message.channel.send(f"🔥 {random.choice(ROASTS)}")
+elif command == "!compliment":
+await message.channel.send(f"💖 {random.choice(COMPLIMENTS)}")
+elif command == "!fact":
+await message.channel.send(f"💡 {random.choice(fun_facts)}")
 # ECONOMY ENGINE
 elif command == "!balance":
 target = message.mentions[0] if message.mentions else message.author
 await message.channel.send(f"💰 {target.display_name}: {economy[target.id]} coins")
 elif command == "!daily":
 today = datetime.date.today().isoformat()
-if daily_claimed[message.author.id] == today: await message.channel.send("Already claimed.")
+if daily_claimed[message.author.id] == today:
+await message.channel.send("Already claimed.")
 else:
 bonus = random.randint(100, 300)
 economy[message.author.id] += bonus
@@ -425,13 +457,15 @@ await message.channel.send(f"💼 Worked. +{earn} coins.")
 elif command == "!hug" and message.mentions:
 hug_counts[message.mentions[0].id] += 1
 await message.channel.send(f"🤗 Hugged! ({hug_counts[message.mentions[0].id]} total)")
-elif command == "!slap" and message.mentions: await message.channel.send(f"👋 Slapped {message.mentions[0].mention}!")
+elif command == "!slap" and message.mentions:
+await message.channel.send(f"👋 Slapped {message.mentions[0].mention}!")
 # MODERATION TASKS
 elif command == "!purge":
 try:
 deleted = await message.channel.purge(limit=min(int(rest), 100) + 1)
 await message.channel.send(f"🗑️ Cleaned {len(deleted)-1} logs.", delete_after=3)
-except: pass
+except:
+pass
 --- VITAL FLASK INTERFACES FOR FLUID RENDER FREE HOSTING CONNECTION ---
 app = Flask('')
 @app.route('/')
