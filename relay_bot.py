@@ -222,8 +222,8 @@ def to_tinytext(text):
     tiny   = "ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖᵠʳˢᵗᵘᵛʷˣʸᶻ⁰¹²³⁴⁵⁶⁷⁸⁹"
 return ''.join(tiny[normal.index(c)] if c in normal else c for c in text.lower())
 def uwuify(text):
-text = text.replace('r', 'w').replace('l', 'w').replace('R', 'W').replace('L', 'W')
-return text + " uwu"
+    text = text.replace('r', 'w').replace('l', 'w').replace('R', 'W').replace('L', 'W')
+    return text + " uwu"
 def pirate_speak(text):
 replacements = {"hello": "ahoy", "hi": "ahoy", "yes": "aye", "no": "nay"}
 words = text.lower().split()
